@@ -1,6 +1,0 @@
-
-{
-  "python.pythonPath": "C:\\Users\\ankursrivastava2\\AppData\\Local\\Continuum\\anaconda3\\envs\\rasa\\python.exe"
-  "terminal.integrated.shell.windows":"C:\\Windows\\System32\\cmd.exe",
-  "terminal.integrated.shellArgs.windows": ["/K", "C:\\Users\\ankursrivastava2\\AppData\\Local\\Continuum\\anaconda3\\Scripts\\activate.bat C:\\Users\\ankursrivastava2\\AppData\\Local\\Continuum\\anaconda3\\envs\\rasa"]
-}
