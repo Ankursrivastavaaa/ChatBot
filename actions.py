@@ -9,7 +9,7 @@ import json
 
 class ActionSearchRestaurants(Action):
 	def name(self):
-		return 'action_restaurant'
+		return 'action_search_restaurants'
 		
 	def run(self, dispatcher, tracker, domain):
 		config={ "user_key":"47ef160bda39996b2dbaff7f9fd0e554"}

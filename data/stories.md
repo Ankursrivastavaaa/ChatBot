@@ -29,3 +29,11 @@
 ## bot challenge
 * bot_challenge
   - utter_iamabot
+  
+## location specified
+* greet
+    - utter_greet
+* restaurant_search{"location": "delhi"}
+    - slot{"location": "delhi"}
+    - action_search_restaurants
+	
