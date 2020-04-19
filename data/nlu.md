@@ -54,3 +54,39 @@
 - are you a human?
 - am I talking to a bot?
 - am I talking to a human?
+
+## intent:restaurant_search
+- i'm looking for a place to eat
+- I want to grab lunch
+- I am searching for a dinner spot
+- I am looking for some restaurants in [Delhi](location).
+- Find me a restaurants in [Bangalore](location).
+
+
+## synonym:4
+- four
+
+## synonym:Delhi
+- New Delhi
+
+## synonym:bangalore
+- Bengaluru
+
+## synonym:chinese
+- chines
+- Chinese
+- Chines
+
+## synonym:mid
+- moderate
+
+## synonym:vegetarian
+- veggie
+- vegg
+
+## regex:greet
+- hey[^\s]*
+
+## regex:pincode
+- [0-9]{6}
+

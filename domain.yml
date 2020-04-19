@@ -9,6 +9,21 @@ intents:
 - mood_great
 - mood_unhappy
 - bot_challenge
+- restaurant_search
+
+entities:
+- cuisine
+- location
+- budget
+
+slots:
+  cuisine:
+    type: text
+  location:
+    type: text
+  budget:
+    type: text
+
 responses:
   utter_greet:
   - text: Hey! How are you?
@@ -22,7 +37,7 @@ responses:
   utter_goodbye:
   - text: Bye
   utter_iamabot:
-  - text: I am a bot, powered by Rasa.
+  - text: I am a bot, powered by Ankur & Neeraj.
 actions:
 - utter_greet
 - utter_cheer_up
@@ -30,3 +45,4 @@ actions:
 - utter_happy
 - utter_goodbye
 - utter_iamabot
+- action_restaurant
