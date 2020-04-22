@@ -1,45 +1,102 @@
-session_config:
-  session_expiration_time: 60
-  carry_over_slots_to_new_session: true
+actions:
+- action_check_location
+- action_search_restaurants
+- action_send_email
+- utter_ask_budget
+- utter_ask_cuisine
+- utter_ask_email_address
+- utter_ask_for_email_to_send
+- utter_ask_location
+- utter_cheer_up
+- utter_default
+- utter_did_that_help
+- utter_dont_operate
+- utter_email_not_sent
+- utter_email_sent
+- utter_goodbye
+- utter_greet
+- utter_happy
+- utter_iamabot
+- utter_location_not_found
+entities:
+- budget
+- cuisine
+- email
+- location
 intents:
+- restaurant_search
 - greet
+- send_email
 - goodbye
 - affirm
 - deny
 - mood_great
 - mood_unhappy
 - bot_challenge
-- restaurant_search
-entities:
-- cuisine
-- location
-- budget
+responses:
+  utter_ask_budget:
+  - buttons:
+    - payload: Lesser than Rs. 300
+      title: Lesser than Rs. 300
+    - payload: Rs. 300 to 700
+      title: Rs. 300 to 700
+    - payload: More than 700
+      title: More than 700
+    text: what kind of budget are you looking for?
+  utter_ask_cuisine:
+  - buttons:
+    - payload: Chinese
+      title: Chinese
+    - payload: Italian
+      title: Italian
+    - payload: South Indian
+      title: South Indian
+    - payload: North Indian
+      title: North Indian
+    - payload: American
+      title: American
+    - payload: Mexican
+      title: Mexican
+    text: what kind of cuisine would you like?
+  utter_ask_email_address:
+  - text: what is your email id ?
+  utter_ask_for_email_to_send:
+  - text: Should I send you details of all the restaurants on email ?
+  utter_ask_location:
+  - text: In what location?
+  utter_cheer_up:
+  - image: https://i.imgur.com/nGF1K8f.jpg
+    text: 'Here is something to cheer you up:'
+  utter_default:
+  - text: i cannot understand
+  utter_did_that_help:
+  - text: Did that help you?
+  utter_dont_operate:
+  - text: Sorry, we don’t operate in this city. Can you please specify some other
+      location?
+  utter_email_not_sent:
+  - text: Ok . thank you !
+  utter_email_sent:
+  - text: Sent. Please check your inbox !
+  utter_goodbye:
+  - text: Bye
+  utter_greet:
+  - text: Hey! How can i help you ?
+  utter_happy:
+  - text: Great, carry on!
+  utter_iamabot:
+  - text: I am a bot, powered by Ankur & Neeraj.
+  utter_location_not_found:
+  - text: Sorry, didn’t find any such location. Can you please tell again ?
+session_config:
+  carry_over_slots_to_new_session: true
+  session_expiration_time: 60
 slots:
   budget:
     type: text
   cuisine:
     type: text
+  email:
+    type: text
   location:
     type: text
-responses:
-  utter_greet:
-  - text: Hey! How are you?
-  utter_cheer_up:
-  - text: 'Here is something to cheer you up:'
-    image: https://i.imgur.com/nGF1K8f.jpg
-  utter_did_that_help:
-  - text: Did that help you?
-  utter_happy:
-  - text: Great, carry on!
-  utter_goodbye:
-  - text: Bye
-  utter_iamabot:
-  - text: I am a bot, powered by Ankur & Neeraj.
-actions:
-- action_search_restaurants
-- utter_greet
-- utter_cheer_up
-- utter_did_that_help
-- utter_happy
-- utter_goodbye
-- utter_iamabot

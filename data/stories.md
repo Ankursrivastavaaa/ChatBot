@@ -1,39 +1,27 @@
-## happy path
-* greet
-  - utter_greet
-* mood_great
-  - utter_happy
 
-## sad path 1
-* greet
-  - utter_greet
-* mood_unhappy
-  - utter_cheer_up
-  - utter_did_that_help
-* affirm
-  - utter_happy
-
-## sad path 2
-* greet
-  - utter_greet
-* mood_unhappy
-  - utter_cheer_up
-  - utter_did_that_help
-* deny
-  - utter_goodbye
-
-## say goodbye
-* goodbye
-  - utter_goodbye
-
-## bot challenge
-* bot_challenge
-  - utter_iamabot
-  
-## location specified
+## Greet
 * greet
     - utter_greet
-* restaurant_search{"location": "delhi"}
-    - slot{"location": "delhi"}
+
+
+## interactive_story_1
+* greet
+    - utter_greet
+* restaurant_search
+    - utter_ask_location
+* restaurant_search{"location": "pune"}
+    - slot{"location": "pune"}
+    - action_check_location
+    - utter_ask_cuisine
+* restaurant_search{"cuisine": "chinese"}
+    - slot{"cuisine": "chinese"}
+    - utter_ask_budget
+* restaurant_search{"budget": "300-700"}
+    - slot{"budget": "300-700"}
     - action_search_restaurants
-	
+    - slot{"location": "pune"}
+    - utter_ask_for_email_to_send
+* send_email{"email": "abc@gmail.com"}
+    - slot{"email": "abc@gmail.com"}
+    - action_send_email
+    - utter_email_sent

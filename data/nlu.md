@@ -1,10 +1,9 @@
 ## intent:greet
-- hey
-- hello
-- hi
-- good morning
-- good evening
-- hey there
+- hey.
+- hello.
+- hi.
+- hey there. How can i help you ?
+- Heyyy
 
 ## intent:goodbye
 - bye
@@ -13,7 +12,7 @@
 - see you later
 
 ## intent:affirm
-- yes
+- yesrasa
 - indeed
 - of course
 - that sounds good
@@ -61,7 +60,15 @@
 - I am searching for a dinner spot
 - I am looking for some restaurants in [Delhi](location).
 - Find me a restaurants in [Bangalore](location).
+- Get me a restaurants in [Hyderabad](location).
+- looking for a resturant in [Kolkata](location).
+- i am hungry looking for resturant
+- in [pune](location)
+- i am looking for [chinese](cuisine)
+- [300-700](budget)
 
+## intent:send_email
+- yes send it to [abc@gmail.com](email)
 
 ## synonym:4
 - four
@@ -84,9 +91,11 @@
 - veggie
 - vegg
 
+## regex:email
+- ^\\w+(\\w+)*\\@(\\w+)*\\.(\\w+)*(.(\\w+)*)?$"
+
 ## regex:greet
 - hey[^\s]*
 
-## regex:pincode
-- [0-9]{6}
-
+## lookup:location
+  data/locations.txt
