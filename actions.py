@@ -8,6 +8,7 @@ from rasa_sdk import Action
 from rasa_sdk.events import SlotSet
 import zomatopy
 import json
+from numpy import loadtxt
 
 
 config={ "user_key":"47ef160bda39996b2dbaff7f9fd0e554"}
@@ -41,29 +42,20 @@ class ActionSearchRestaurants(Action):
 
 
 
-# Check if the location exists. using zomato api.if found then save it, else utter not found.
-t1_t2_cities_list = ["Ahmedabad","Bangalore","Chennai","Delhi","Hyderabad","Kolkata","Mumbai","Pune",
-"Agra","Ajmer","Aligarh","Allahabad","Amravati","Amritsar","Asansol","Aurangabad",
-"Bareilly","Belgaum","Bhavnagar","Bhiwandi","Bhopal","Bhubaneswar",
-"Bikaner","Bokaro Steel City","Chandigarh","Coimbatore","Cuttack","Dehradun",
-"Dhanbad","Durg-Bhilai Nagar","Durgapur","Erode","Faridabad","Firozabad","Ghaziabad",
-"Gorakhpur","Gulbarga","Guntur","Gurgaon","Guwahati",
-"Gwalior","Hubli-Dharwad","Indore","Jabalpur","Jaipur","Jalandhar","Jammu","Jamnagar","Jamshedpur","Jhansi","Jodhpur",
-"Kannur","Kanpur","Kakinada","Kochi","Kottayam","Kolhapur","Kollam","Kota","Kozhikode","Kurnool","Lucknow","Ludhiana",
-"Madurai","Malappuram","Mathura","Goa","Mangalore","Meerut",
-"Moradabad","Mysore","Nagpur","Nanded","Nashik","Nellore","Noida","Palakkad","Patna","Pondicherry","Raipur","Rajkot",
-"Rajahmundry","Ranchi","Rourkela","Salem","Sangli","Siliguri",
-"Solapur","Srinagar","Sultanpur","Surat","Thiruvananthapuram","Thrissur","Tiruchirappalli","Tirunelveli","Tiruppur",
-"Ujjain","Vijayapura","Vadodara","Varanasi",
-"Vasai-Virar City","Vijayawada","Visakhapatnam","Warangal"]
+# Check if the location exists, else utter not found.
 class ActionValidateLocation(Action):
 	def name(self):
 		return 'action_check_location'
 
 	def run(self, dispatcher, tracker, domain):
+		location_list = loadtxt("data/locations.txt",dtype=str, delimiter="\n", unpack=False)
 		loc = tracker.get_slot('location')
+
 		city = str(loc)
 		print(city)
+		if(city.lower() not in location_list):
+			dispatcher.utter_message("Sorry, we don’t operate in this city. Can you please specify some other location")
+		return
 		
 			
 

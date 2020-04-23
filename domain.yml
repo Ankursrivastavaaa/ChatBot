@@ -24,12 +24,12 @@ entities:
 - email
 - location
 intents:
-- restaurant_search
-- greet
 - send_email
+- restaurant_search
+- deny
+- greet
 - goodbye
 - affirm
-- deny
 - mood_great
 - mood_unhappy
 - bot_challenge
@@ -87,7 +87,8 @@ responses:
   utter_iamabot:
   - text: I am a bot, powered by Ankur & Neeraj.
   utter_location_not_found:
-  - text: Sorry, didn’t find any such location. Can you please tell again ?
+  - text: Sorry, we don’t operate in this city. Can you please specify some other
+      location ?
 session_config:
   carry_over_slots_to_new_session: true
   session_expiration_time: 60
