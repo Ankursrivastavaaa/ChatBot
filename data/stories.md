@@ -188,3 +188,48 @@
 * send_email{"email": "ank@fro.com"}
     - slot{"email": "ank@fro.com"}
     - action_send_email
+
+## interactive_story_1
+* greet
+    - utter_greet
+* restaurant_search
+    - utter_ask_location
+* restaurant_search{"location": "bangalore"}
+    - slot{"location": "bangalore"}
+    - action_validate_location
+    - utter_ask_location
+    - utter_ask_cuisine
+* action_search_restaurants{"cuisine": "South Indian"}
+    - slot{"cuisine": "South Indian"}
+    - action_validate_cuisine
+    - utter_ask_budget
+* restaurant_search{"budget": "low"}
+    - slot{"budget": "low"}
+    - action_validate_budget
+    - action_search_restaurants
+    - slot{"location": "bangalore"}
+    - utter_ask_for_email_to_send
+* deny
+    - utter_email_not_sent
+
+## interactive_story_1
+* greet
+    - utter_greet
+* restaurant_search
+    - utter_ask_location
+* restaurant_search{"location": "Bangalore"}
+    - slot{"location": "Bangalore"}
+    - action_validate_location
+    - utter_ask_cuisine
+* action_search_restaurants{"cuisine": "Mexican"}
+    - slot{"cuisine": "Mexican"}
+    - action_validate_cuisine
+    - utter_ask_budget
+* action_search_restaurants{"budget": "mid"}
+    - slot{"budget": "mid"}
+    - action_validate_budget
+    - action_search_restaurants
+    - slot{"location": "Bangalore"}
+    - utter_ask_for_email_to_send
+* deny
+    - utter_email_not_sent

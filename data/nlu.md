@@ -80,7 +80,7 @@
 - Okay. Show me some in [Allahabad](location)
 - Okay. Show me some in [Pune](location)
 - I am looking for [Mexican](cuisine)
-- [300 to 700](budget:medium)
+- [300 to 700](budget:mid)
 - Can you suggest some good restaurants in [kolkata](location)
 - [american](cuisine)
 - [<300](budget:low)
@@ -94,13 +94,16 @@
 - [Italian](cuisine)
 - [costly](budget:high) one
 - Ill prefer [North Indian](cuisine)
-- [300-700](budget:medium) range
+- [300-700](budget:mid) range
 - looking for [South Indian](cuisine)
 - Can you suggest some good restaurants in [Buxar](location)
 - find some in [Amaravati](location)
 - show me in [Delhi](location)
-- [Italian](cuisine)
 - [cheapest](budget:low) possible
+- Looking out for some good restaurants
+- [Less than Rs 300](budget:low)
+- find me a resturant
+- [Bangalore](location)
 
 ## intent:send_email
 - yes send it to [abc@gmail.com](email)
@@ -108,13 +111,6 @@
 - Yes send it to [ankursrivastavaaa@gmail.com](email)
 - [android@domain.com](email)
 - [ank@fro.com](email)
-
-## synonym:300-700
-- between 300 to 700
-- between 300 - 700
-- moderate priced
-- not very high
-- middle class
 
 ## synonym:4
 - four
@@ -141,15 +137,21 @@
 ## synonym:low
 - less than 300
 - <300
-- cheap
 - cheapest
+- Less than Rs 300
+- cheap
 - low bugdet
 
-## synonym:medium
+## synonym:mid
 - 300 to 700
 - 300-700
 - midium
 - between 300-700
+- between 300 to 700
+- between 300 - 700
+- moderate priced
+- not very high
+- middle class
 
 ## regex:email
 - ^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$

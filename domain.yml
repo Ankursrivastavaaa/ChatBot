@@ -27,11 +27,12 @@ entities:
 - email
 - location
 intents:
-- affirm
+- action_search_restaurants
 - restaurant_search
-- send_email
-- deny
 - greet
+- deny
+- affirm
+- send_email
 - goodbye
 - mood_great
 - mood_unhappy
