@@ -27,9 +27,9 @@ entities:
 - email
 - location
 intents:
-- restaurant_search
 - greet
 - deny
+- restaurant_search
 - affirm
 - send_email
 - goodbye

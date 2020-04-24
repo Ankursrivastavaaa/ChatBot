@@ -114,3 +114,28 @@
     - utter_ask_for_email_to_send
 * deny
     - utter_email_not_sent
+
+## interactive_story_1
+* greet
+    - utter_greet
+* restaurant_search
+    - utter_ask_location
+* restaurant_search{"location": "mankapur"}
+    - slot{"location": "mankapur"}
+    - action_validate_location
+* restaurant_search{"location": "agra"}
+    - slot{"location": "agra"}
+    - action_validate_location
+    - utter_ask_cuisine
+* restaurant_search{"cuisine": "Italian"}
+    - slot{"cuisine": "Italian"}
+    - action_validate_cuisine
+    - utter_ask_budget
+* restaurant_search{"budget": "high"}
+    - slot{"budget": "high"}
+    - action_validate_budget
+    - action_search_restaurants
+    - slot{"location": "agra"}
+    - utter_ask_for_email_to_send
+* deny
+    - utter_email_not_sent

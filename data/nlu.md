@@ -87,6 +87,11 @@
 - [Mumbai](location)
 - Im hungry. Looking out for some good [chinese](cuisine) restaurants in [chandigarh](location)
 - [more than 700](budget:high)
+- Get me a resturant
+- [mankapur](location)
+- [agra](location)
+- [Italian](cuisine)
+- [costly](budget:high) one
 
 ## intent:send_email
 - yes send it to [abc@gmail.com](email)
@@ -117,8 +122,8 @@
 - Chines
 
 ## synonym:high
-- costly
 - more than 700
+- costly
 - expensive
 - top
 - best one
