@@ -1,7 +1,9 @@
 actions:
-- action_check_location
 - action_search_restaurants
 - action_send_email
+- action_validate_budget
+- action_validate_cuisine
+- action_validate_location
 - utter_ask_budget
 - utter_ask_cuisine
 - utter_ask_email_address
@@ -10,52 +12,53 @@ actions:
 - utter_cheer_up
 - utter_default
 - utter_did_that_help
-- utter_dont_operate
 - utter_email_not_sent
 - utter_email_sent
 - utter_goodbye
 - utter_greet
 - utter_happy
 - utter_iamabot
-- utter_location_not_found
+- utter_wrong_budget
+- utter_wrong_cuisine
+- utter_wrong_location
 entities:
 - budget
 - cuisine
 - email
 - location
 intents:
-- send_email
 - restaurant_search
-- deny
 - greet
-- goodbye
+- send_email
+- deny
 - affirm
+- goodbye
 - mood_great
 - mood_unhappy
 - bot_challenge
 responses:
   utter_ask_budget:
   - buttons:
-    - payload: Lesser than Rs. 300
+    - payload: '/action_search_restaurants{"budget": "low"}'
       title: Lesser than Rs. 300
-    - payload: Rs. 300 to 700
+    - payload: '/action_search_restaurants{"budget": "mid"}'
       title: Rs. 300 to 700
-    - payload: More than 700
+    - payload: '/action_search_restaurants{"budget": "high"}'
       title: More than 700
     text: what kind of budget are you looking for?
   utter_ask_cuisine:
   - buttons:
-    - payload: Chinese
+    - payload: '/action_search_restaurants{"cuisine": "Chinese"}'
       title: Chinese
-    - payload: Italian
+    - payload: '/action_search_restaurants{"cuisine": "Italian"}'
       title: Italian
-    - payload: South Indian
+    - payload: '/action_search_restaurants{"cuisine": "South Indian"}'
       title: South Indian
-    - payload: North Indian
+    - payload: '/action_search_restaurants{"cuisine": "North Indian"}'
       title: North Indian
-    - payload: American
+    - payload: '/action_search_restaurants{"cuisine": "American"}'
       title: American
-    - payload: Mexican
+    - payload: '/action_search_restaurants{"cuisine": "Mexican"}'
       title: Mexican
     text: what kind of cuisine would you like?
   utter_ask_email_address:
@@ -71,9 +74,6 @@ responses:
   - text: i cannot understand
   utter_did_that_help:
   - text: Did that help you?
-  utter_dont_operate:
-  - text: Sorry, we don’t operate in this city. Can you please specify some other
-      location?
   utter_email_not_sent:
   - text: Ok . thank you !
   utter_email_sent:
@@ -86,9 +86,12 @@ responses:
   - text: Great, carry on!
   utter_iamabot:
   - text: I am a bot, powered by Ankur & Neeraj.
-  utter_location_not_found:
-  - text: Sorry, we don’t operate in this city. Can you please specify some other
-      location ?
+  utter_wrong_budget:
+  - text: Sorry, I could not understand.Please try typing low,medium,high.
+  utter_wrong_cuisine:
+  - text: Sorry, Please try like Chinese,Italian etc.
+  utter_wrong_location:
+  - text: Sorry, we don’t operate in this city.Try other location ?
 session_config:
   carry_over_slots_to_new_session: true
   session_expiration_time: 60
