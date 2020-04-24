@@ -25,6 +25,7 @@
 * send_email{"email": "ankur@gmail.com"}
     - slot{"email": "ankur@gmail.com"}
     - action_send_email
+    - utter_email_sent
 
 ## interactive_story_1
 * greet
@@ -69,6 +70,7 @@
 * send_email{"email": "ankursrivastavaaa@gmail.com"}
     - slot{"email": "ankursrivastavaaa@gmail.com"}
     - action_send_email
+    - utter_email_sent
 
 ## interactive_story_1
 * greet
@@ -96,6 +98,7 @@
 * send_email{"email": "android@domain.com"}
     - slot{"email": "android@domain.com"}
     - action_send_email
+    - utter_email_sent
 
 ## interactive_story_1
 * greet
@@ -188,6 +191,7 @@
 * send_email{"email": "ank@fro.com"}
     - slot{"email": "ank@fro.com"}
     - action_send_email
+    - utter_email_sent
 
 ## interactive_story_1
 * greet
