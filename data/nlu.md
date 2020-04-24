@@ -26,6 +26,7 @@
 - correct
 - yes
 - yes. Please
+- Yes
 
 ## intent:deny
 - no
@@ -92,12 +93,21 @@
 - [agra](location)
 - [Italian](cuisine)
 - [costly](budget:high) one
+- Ill prefer [North Indian](cuisine)
+- [300-700](budget:medium) range
+- looking for [South Indian](cuisine)
+- Can you suggest some good restaurants in [Buxar](location)
+- find some in [Amaravati](location)
+- show me in [Delhi](location)
+- [Italian](cuisine)
+- [cheapest](budget:low) possible
 
 ## intent:send_email
 - yes send it to [abc@gmail.com](email)
 - [ankur@gmail.com](email)
 - Yes send it to [ankursrivastavaaa@gmail.com](email)
 - [android@domain.com](email)
+- [ank@fro.com](email)
 
 ## synonym:300-700
 - between 300 to 700
@@ -137,9 +147,9 @@
 
 ## synonym:medium
 - 300 to 700
+- 300-700
 - midium
 - between 300-700
-- 300-700
 
 ## regex:email
 - ^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$

@@ -139,3 +139,52 @@
     - utter_ask_for_email_to_send
 * deny
     - utter_email_not_sent
+
+## interactive_story_1
+* greet
+    - utter_greet
+* restaurant_search
+    - utter_ask_location
+* restaurant_search{"location": "bangalore"}
+    - slot{"location": "bangalore"}
+    - action_validate_location
+    - utter_ask_cuisine
+* restaurant_search{"cuisine": "North Indian"}
+    - slot{"cuisine": "North Indian"}
+    - action_validate_cuisine
+    - utter_ask_budget
+* restaurant_search{"budget": "medium"}
+    - slot{"budget": "medium"}
+    - action_validate_budget
+    - action_search_restaurants
+    - slot{"location": "bangalore"}
+    - utter_ask_for_email_to_send
+* deny
+    - utter_email_not_sent
+
+## interactive_story_1
+* restaurant_search{"location": "Buxar"}
+    - slot{"location": "Buxar"}
+    - action_validate_location
+* restaurant_search{"location": "Amaravati"}
+    - slot{"location": "Amaravati"}
+    - action_validate_location
+* restaurant_search{"location": "Delhi"}
+    - slot{"location": "Delhi"}
+    - action_validate_location
+    - utter_ask_cuisine
+* restaurant_search{"cuisine": "Italian"}
+    - slot{"cuisine": "Italian"}
+    - action_validate_cuisine
+    - utter_ask_budget
+* restaurant_search{"budget": "low"}
+    - slot{"budget": "low"}
+    - action_validate_budget
+    - action_search_restaurants
+    - slot{"location": "Delhi"}
+    - utter_ask_for_email_to_send
+* affirm
+    - utter_ask_email_address
+* send_email{"email": "ank@fro.com"}
+    - slot{"email": "ank@fro.com"}
+    - action_send_email
