@@ -1,23 +1,19 @@
 actions:
-- action_search_restaurants
 - action_send_email
-- action_validate_budget
-- action_validate_cuisine
-- action_validate_location
 - utter_ask_budget
 - utter_ask_cuisine
 - utter_ask_email_address
 - utter_ask_for_email_to_send
 - utter_ask_location
-- utter_cheer_up
+- utter_chitchat
 - utter_default
-- utter_did_that_help
 - utter_email_not_sent
 - utter_email_sent
-- utter_goodbye
 - utter_greet
-- utter_happy
 - utter_iamabot
+- utter_noworries
+- utter_restart
+- utter_slots_values
 - utter_wrong_budget
 - utter_wrong_cuisine
 - utter_wrong_location
@@ -26,16 +22,19 @@ entities:
 - cuisine
 - email
 - location
+forms:
+- restaurant_form
 intents:
-- action_search_restaurants
-- restaurant_search
-- greet
-- deny
-- affirm
 - send_email
-- goodbye
-- mood_great
-- mood_unhappy
+- request_restaurant:
+    use_entities: []
+- greet
+- affirm
+- chitchat:
+    use_entities: []
+- deny
+- stop
+- thankyou
 - bot_challenge
 responses:
   utter_ask_budget:
@@ -49,17 +48,17 @@ responses:
     text: what kind of budget are you looking for?
   utter_ask_cuisine:
   - buttons:
-    - payload: '/action_search_restaurants{"cuisine": "Chinese"}'
+    - payload: '/request_restaurant{"cuisine": "Chinese"}'
       title: Chinese
-    - payload: '/action_search_restaurants{"cuisine": "Italian"}'
+    - payload: '/request_restaurant{"cuisine": "Italian"}'
       title: Italian
-    - payload: '/action_search_restaurants{"cuisine": "South Indian"}'
+    - payload: '/request_restaurant{"cuisine": "South Indian"}'
       title: South Indian
-    - payload: '/action_search_restaurants{"cuisine": "North Indian"}'
+    - payload: '/request_restaurant{"cuisine": "North Indian"}'
       title: North Indian
-    - payload: '/action_search_restaurants{"cuisine": "American"}'
+    - payload: '/request_restaurant{"cuisine": "American"}'
       title: American
-    - payload: '/action_search_restaurants{"cuisine": "Mexican"}'
+    - payload: '/request_restaurant{"cuisine": "Mexican"}'
       title: Mexican
     text: what kind of cuisine would you like?
   utter_ask_email_address:
@@ -67,28 +66,28 @@ responses:
   utter_ask_for_email_to_send:
   - text: Should I send you details of all the restaurants on email ?
   utter_ask_location:
-  - text: In what location?
-  utter_cheer_up:
-  - image: https://i.imgur.com/nGF1K8f.jpg
-    text: 'Here is something to cheer you up:'
+  - text: Please help me with the location?
+  utter_chitchat:
+  - text: chitchat
   utter_default:
-  - text: i cannot understand
-  utter_did_that_help:
-  - text: Did that help you?
+  - text: sorry, I didn't understand you, please try input something else
   utter_email_not_sent:
   - text: Ok . thank you !
   utter_email_sent:
   - text: Sent. Please check your inbox !
-  utter_goodbye:
-  - text: Bye
   utter_greet:
-  - text: Hey! How can i help you ?
-  utter_happy:
-  - text: Great, carry on!
+  - text: Hello! I am restaurant search assistant! How can I help?
   utter_iamabot:
   - text: I am a bot, powered by Ankur & Neeraj.
+  utter_noworries:
+  - text: you are welcome :)
+  utter_restart:
+  - text: restarted
+  utter_slots_values:
+  - text: "I am going to run a restaurant search using the following parameters:\n\
+      \ - cuisine: {cuisine}\n - location: {location}\n - budget: {budget}\n"
   utter_wrong_budget:
-  - text: Sorry, I could not understand.Please try typing low,medium,high.
+  - text: Sorry, I could not understand.Please try typing low, medium, high.
   utter_wrong_cuisine:
   - text: Sorry, Please try like Chinese,Italian etc.
   utter_wrong_location:
@@ -98,10 +97,16 @@ session_config:
   session_expiration_time: 60
 slots:
   budget:
-    type: text
+    auto_fill: false
+    type: unfeaturized
   cuisine:
-    type: text
+    auto_fill: false
+    type: unfeaturized
   email:
-    type: text
+    auto_fill: false
+    type: unfeaturized
   location:
-    type: text
+    auto_fill: false
+    type: unfeaturized
+  requested_slot:
+    type: unfeaturized
