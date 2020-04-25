@@ -17,6 +17,7 @@ actions:
 - utter_wrong_budget
 - utter_wrong_cuisine
 - utter_wrong_location
+- action_reset_slots
 entities:
 - budget
 - cuisine
@@ -39,11 +40,11 @@ intents:
 responses:
   utter_ask_budget:
   - buttons:
-    - payload: '/action_search_restaurants{"budget": "low"}'
+    - payload: '/request_restaurant{"budget": "low"}'
       title: Lesser than Rs. 300
-    - payload: '/action_search_restaurants{"budget": "mid"}'
+    - payload: '/request_restaurant{"budget": "mid"}'
       title: Rs. 300 to 700
-    - payload: '/action_search_restaurants{"budget": "high"}'
+    - payload: '/request_restaurant{"budget": "high"}'
       title: More than 700
     text: what kind of budget are you looking for?
   utter_ask_cuisine:

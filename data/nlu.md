@@ -235,7 +235,6 @@
 
 ## synonym:Delhi
 - New Delhi
-- Delli
 
 ## synonym:South Indian
 - Southy

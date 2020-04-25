@@ -225,4 +225,9 @@ class ActionSendEmail(Action):
         # s.quit()
         # dispatcher.utter_message("**** EMAIL SENT! HAPPY DINING :) ****")
 
-   
+class ActionResetSlots(Action):
+    def name(self):
+        return 'action_reset_slots'
+
+    def run(self, dispatcher, tracker, domain):
+        return [AllSlotsReset()]

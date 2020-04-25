@@ -21,5 +21,6 @@
     - form{"name": null}
     - utter_ask_for_email_to_send
 * deny
+    - action_reset_slots
     - utter_email_not_sent
 
