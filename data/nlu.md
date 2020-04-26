@@ -28,6 +28,8 @@
 - hey bot!
 - hello friend
 - Holaaaa
+- Hola
+- Hello!
 
 ## intent:request_restaurant
 - im looking for a restaurant
@@ -88,6 +90,19 @@
 - Looking for a resturant
 - [North Indian](cuisine) will do
 - [Delhi](location)
+- [madras](location:chennai)
+- I will prefer [Italian](cuisine)
+- [300-700](budget) range
+- Can you suggest some good restaurants in [Pakistan](location)
+- Show me some in [New Delhi](location:Delhi)
+- [American](cuisine) Food
+- Can you suggest some good restaurants in [kolkata](location)
+- [South Indian](cuisine)
+- Im hungry
+- in [mubaim](location:mumbai)
+- [Italiano](cuisine:Italian)
+- Im hungry. Looking out for some good [chinese](cuisine) restaurants in [chandigarh](location)
+- Im hungry. Looking out for some good [South indian](cuisine) restaurants in [Pune](location) with [<300](budget:300) budget
 
 ## intent:send_email
 - yes send it to [abc@gmail.com](email)
@@ -99,6 +114,10 @@
 - email me at [ankur.srivastava@gmail.co.in](email)
 - [upgrad.test@uprad.co.in](email)
 - Yes to [test@upgrad.co.in](email)
+- Yes. Please send it to [abcdgdk@dkj.com](email)
+- yes. Please send it to [xyz@sth.edu](email)
+- [jddk.2jmd@kdl.co.in](email)
+- send the details to to my email id [neeraj_1395@yahoo.com.hk](email)
 
 ## intent:affirm
 - yeah a cheap restaurant serving international food
@@ -119,6 +138,8 @@
 - right on
 - i love that
 - Yes
+- Yes please
+- yes. Please
 
 ## intent:deny
 - no
@@ -129,41 +150,7 @@
 - breath no
 - do you have something else
 - no this does not work for me
-
-## synonym:Delhi
-- New Delhi
-
-## synonym:mumbai
-- Bombay
-
-## synonym:bangalore
-- bengaluru
-- Bengaluru
-
-## synonym:chennai
-- madras
-
-## synonym:South Indian
-- Southy
-
-
-
-## synonym:chinese
-- chines
-- Chinese
-- Chines
-
-## regex:email
-- ^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$
-
-## regex:greet
-- hey[^\s]*
-
-## lookup:location
-  data/locations.txt
-
-## lookup:location
-  data/allLocations.txt
+- No. Thanks
 
 ## intent:thankyou
 - um thank you good bye
@@ -260,3 +247,47 @@
 - am I talking to a bot?
 - am I talking to a human?
 
+## synonym:300
+- <300
+
+## synonym:700
+- >700
+
+## synonym:Delhi
+- delli
+- New Delhi
+
+## synonym:Italian
+- Italiano
+
+## synonym:South Indian
+- Southy
+
+## synonym:bangalore
+- bengaluru
+- Namma Bangalore
+- BLR
+
+## synonym:chennai
+- madras
+
+## synonym:chinese
+- chines
+- Chinese
+- Chines
+
+## synonym:mumbai
+- mubaim
+- Bombay
+
+## regex:email
+- ^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$
+
+## regex:greet
+- hey[^\s]*
+
+## lookup:location
+  data/locations.txt
+
+## lookup:location
+  data/allLocations.txt

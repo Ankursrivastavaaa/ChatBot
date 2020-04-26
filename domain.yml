@@ -1,4 +1,5 @@
 actions:
+- action_reset_slots
 - utter_ask_budget
 - utter_ask_cuisine
 - utter_ask_email_address
@@ -10,32 +11,31 @@ actions:
 - utter_email_sent
 - utter_greet
 - utter_iamabot
+- utter_no_email
 - utter_noworries
 - utter_restart
 - utter_slots_values
 - utter_wrong_budget
 - utter_wrong_cuisine
 - utter_wrong_location
-- action_reset_slots
-- utter_no_email
 entities:
 - budget
 - cuisine
 - email
 - location
 forms:
-- restaurant_form
 - email_form
+- restaurant_form
 intents:
 - send_email:
     use_entities: []
 - request_restaurant:
     use_entities: []
-- greet
+- deny
 - affirm
+- greet
 - chitchat:
     use_entities: []
-- deny
 - stop
 - thankyou
 - bot_challenge
@@ -48,7 +48,8 @@ responses:
       title: Rs. 300 to 700
     - payload: '/request_restaurant{"budget": "700"}'
       title: More than 700
-    text: "what kind of budget are you looking for? \n Below are the average budget for two people"
+    text: "what kind of budget are you looking for? \n Below are the average budget\
+      \ for two people"
   utter_ask_cuisine:
   - buttons:
     - payload: '/request_restaurant{"cuisine": "Chinese"}'
@@ -69,7 +70,7 @@ responses:
   utter_ask_for_email_to_send:
   - text: Do you want the details of the top 10 restaurants on your email ?
   utter_ask_location:
-  - text:  In which city are you looking for restaurants?
+  - text: Please help me with the city name?
   utter_chitchat:
   - text: chitchat
   utter_default:
@@ -82,6 +83,9 @@ responses:
   - text: Hello! I am restaurant search assistant! How can I help?
   utter_iamabot:
   - text: I am a bot, powered by Ankur & Neeraj.
+  utter_no_email:
+  - text: i couldnt pick your email id. Can you please help me with email id again
+      ?
   utter_noworries:
   - text: you are welcome :)
   utter_restart:
@@ -90,13 +94,11 @@ responses:
   - text: "I am going to run a restaurant search using the following parameters:\n\
       \ - cuisine: {cuisine}\n - location: {location}\n - budget: {budget}\n"
   utter_wrong_budget:
-  - text: Sorry, I could not understand.Please try like <300, 300-700 or >700 
+  - text: Sorry, I could not understand.Please try like <300, 300-700 or >700
   utter_wrong_cuisine:
   - text: Sorry, Please try like Chinese,Italian etc.
   utter_wrong_location:
   - text: Sorry, We do not operate in that area yet.Try other location ?
-  utter_no_email:
-  - text: i couldnt pick your email id. Can you please help me with email id again ?
 session_config:
   carry_over_slots_to_new_session: true
   session_expiration_time: 60
