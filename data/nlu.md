@@ -61,14 +61,14 @@
 - [300](budget) to [700](budget)
 - Can you suggest some good restaurants in [delli](location:Delhi)
 - [american](cuisine)
-- <[300](budget)
+- [<300](budget:300)
 - < than [300](budget)
 - below [300](budget)
 - in mubaim
 - [Mumbai](location)
 - Im hungry. Looking out for some good [chines](cuisine:chinese) restaurants in [chandigarh](location)
 - more than [700](budget)
-- >[700](budget)
+- [>700](budget:700)
 - greater than [700](budget)
 - more than Rs [700](budget)
 - Get me a resturant
@@ -76,7 +76,6 @@
 - [agra](location)
 - [Italian](cuisine)
 - Ill prefer [North Indian](cuisine)
-- [300](budget)-[700](budget) range
 - between [300](budget) to [700](budget) range
 - looking for [South Indian](cuisine)
 - Can you suggest some good restaurants in [Buxar](location)
@@ -240,10 +239,6 @@
 
 ## regex:email
 - ^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$
-
-## regex:budget
-- [0-9]{3}
-
 
 ## regex:greet
 - hey[^\s]*

@@ -31,7 +31,11 @@ class RestaurantForm(FormAction):
         return {
             "cuisine": self.from_entity(entity="cuisine", intent="request_restaurant"),
             "location": self.from_entity(entity="location", intent="request_restaurant"),
-            "budget": self.from_entity(entity="budget", intent="request_restaurant"),
+            "budget": [
+                self.from_entity(
+                    entity="budget", intent=["request_restaurant"]
+                ),
+            ]
         }
     @staticmethod
     def is_not_int(string: Text) -> bool:
@@ -98,19 +102,26 @@ class RestaurantForm(FormAction):
         domain: Dict[Text, Any],
     ) -> Dict[Text, Any]:
         if isinstance(value, list):
-            value = set(value)        
+            value = set(value)
+            dum=[]
             for val in value:
-                val = val.replace("<","").replace(">","").replace("-","")
-                if(val == ""):
-                    continue
-                if self.is_not_int(val) or int(val) < 0:
-                    dispatcher.utter_message(template="utter_wrong_budget")
-                    return {"budget": None}
-                else:
-                    bud= bud + val+"-"
-            value = bud[:-1]
+                val = val.replace("<","").replace(">","").replace(" ","")
+                dum.append(val)
+            value = set(dum)
+            if(len(value) == 0):
+                dispatcher.utter_message(template="utter_wrong_budget")
+                return {"budget": None}
+            elif(len(value) == 1):
+                for val in value:
+                    break
+                value=val
+            else:
+                value='-'.join(sorted(set(value)))
+        
         print("Budget:",value)
-        return {"budget": value}
+        dispatcher.utter_message(template="utter_wrong_budget")
+        return {"budget": None}
+        # return {"budget": value}
 
     def submit(
         self,
