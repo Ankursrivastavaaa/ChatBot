@@ -91,11 +91,14 @@
 
 ## intent:send_email
 - yes send it to [abc@gmail.com](email)
+- [ankur@dmain.com](email)
+- Please to at [ankursrivastavaaa@gmail.com](email)
+- [android@domain.co.hk](email)
+- Mail me @ [ank@fro.com](email)
 - [ankur@gmail.com](email)
-- Yes send it to [ankursrivastavaaa@gmail.com](email)
-- [android@domain.com](email)
-- [ank@fro.com](email)
-- [ankur@gmail.com](email)
+- email me at [ankur.srivastava@gmail.co.in](email)
+- [upgrad.test@uprad.co.in](email)
+- Yes to [test@upgrad.co.in](email)
 
 ## intent:affirm
 - yeah a cheap restaurant serving international food
@@ -126,6 +129,41 @@
 - breath no
 - do you have something else
 - no this does not work for me
+
+## synonym:Delhi
+- New Delhi
+
+## synonym:mumbai
+- Bombay
+
+## synonym:bangalore
+- bengaluru
+- Bengaluru
+
+## synonym:chennai
+- madras
+
+## synonym:South Indian
+- Southy
+
+
+
+## synonym:chinese
+- chines
+- Chinese
+- Chines
+
+## regex:email
+- ^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$
+
+## regex:greet
+- hey[^\s]*
+
+## lookup:location
+  data/locations.txt
+
+## lookup:location
+  data/allLocations.txt
 
 ## intent:thankyou
 - um thank you good bye
@@ -222,29 +260,3 @@
 - am I talking to a bot?
 - am I talking to a human?
 
-## synonym:Delhi
-- New Delhi
-
-## synonym:South Indian
-- Southy
-
-## synonym:bangalore
-- bengaluru
-- Bengaluru
-
-## synonym:chinese
-- chines
-- Chinese
-- Chines
-
-## regex:email
-- ^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$
-
-## regex:greet
-- hey[^\s]*
-
-## lookup:location
-  data/locations.txt
-
-## lookup:location
-  data/allLocations.txt

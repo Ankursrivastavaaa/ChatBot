@@ -48,7 +48,7 @@ responses:
       title: Rs. 300 to 700
     - payload: '/request_restaurant{"budget": "700"}'
       title: More than 700
-    text: what kind of budget are you looking for?
+    text: "what kind of budget are you looking for? \n Below are the average budget for two people"
   utter_ask_cuisine:
   - buttons:
     - payload: '/request_restaurant{"cuisine": "Chinese"}'
@@ -67,9 +67,9 @@ responses:
   utter_ask_email_address:
   - text: what is your email id ?
   utter_ask_for_email_to_send:
-  - text: Should I send you details of all the restaurants on email ?
+  - text: Do you want the details of the top 10 restaurants on your email ?
   utter_ask_location:
-  - text: Please help me with the location?
+  - text:  In which city are you looking for restaurants?
   utter_chitchat:
   - text: chitchat
   utter_default:
@@ -90,11 +90,11 @@ responses:
   - text: "I am going to run a restaurant search using the following parameters:\n\
       \ - cuisine: {cuisine}\n - location: {location}\n - budget: {budget}\n"
   utter_wrong_budget:
-  - text: Sorry, I could not understand.Please try typing low, medium, high.
+  - text: Sorry, I could not understand.Please try like <300, 300-700 or >700 
   utter_wrong_cuisine:
   - text: Sorry, Please try like Chinese,Italian etc.
   utter_wrong_location:
-  - text: Sorry, we don’t operate in this city.Try other location ?
+  - text: Sorry, We do not operate in that area yet.Try other location ?
   utter_no_email:
   - text: i couldnt pick your email id. Can you please help me with email id again ?
 session_config:

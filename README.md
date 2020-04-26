@@ -1,50 +1,177 @@
-# Formbot
+Bot is Built on :
 
-The `formbot` example is designed to help you understand how the `FormAction` works and how
-to implement it in practice. Using the code and data files in this directory, you
-can build a simple restaurant search assistant capable of recommending
-restaurants based on user preferences.
-
-## What’s inside this example?
-
-This example contains some training data and the main files needed to build an
-assistant on your local machine. The `formbot` consists of the following files:
-
-- **data/nlu.md** contains training examples for the NLU model  
-- **data/stories.md** contains training stories for the Core model
-- **actions.py** contains the implementation of a custom `FormAction`
-- **config.yml** contains the model configuration
-- **domain.yml** contains the domain of the assistant  
-- **endpoints.yml** contains the webhook configuration for the custom actions
-
-## How to use this example?
-
-Using this example you can build an actual assistant which demonstrates the
-functionality of the `FormAction`. You can test the example using the following
-steps:
-
-1. Train a Rasa model containing the Rasa NLU and Rasa Core models by running:
-    ```
-    rasa train
-    ```
-    The model will be stored in the `/models` directory as a zipped file.
-
-2. Run an instance of [duckling](https://rasa.com/docs/rasa/nlu/components/#ducklinghttpextractor)
-   on port 8000 by either running the docker command
-   ```
-   docker run -p 8000:8000 rasa/duckling
-   ```
-   or [installing duckling](https://github.com/facebook/duckling#requirements) directly on your machine and starting the server.
-
-3. Test the assistant by running:
-    ```
-    rasa run actions&
-    rasa shell -m models --endpoints endpoints.yml
-    ```
-    This will load the assistant in your command line for you to chat.
-
-For more information about the individual commands, please check out our
-[documentation](http://rasa.com/docs/rasa/user-guide/command-line-interface/).
-
-## Encountered any issues?
-Let us know about it by posting on [Rasa Community Forum](https://forum.rasa.com)!
+# Name                    Version                   Build  Channel
+absl-py                   0.9.0                    pypi_0    pypi
+aiofiles                  0.5.0                    pypi_0    pypi
+aiohttp                   3.6.2                    pypi_0    pypi
+alembic                   1.4.2                    pypi_0    pypi
+apscheduler               3.6.3                    pypi_0    pypi
+astor                     0.8.1                    pypi_0    pypi
+async-generator           1.10                     pypi_0    pypi
+async-timeout             3.0.1                    pypi_0    pypi
+attrs                     19.3.0                   pypi_0    pypi
+automat                   20.2.0                   pypi_0    pypi
+boto3                     1.12.41                  pypi_0    pypi
+botocore                  1.15.41                  pypi_0    pypi
+ca-certificates           2020.1.1                      0
+cachetools                4.1.0                    pypi_0    pypi
+certifi                   2020.4.5.1               py37_0
+cffi                      1.14.0                   pypi_0    pypi
+chardet                   3.0.4                    pypi_0    pypi
+cloudpickle               0.6.1                    pypi_0    pypi
+colorama                  0.4.3                    pypi_0    pypi
+colorclass                2.2.0                    pypi_0    pypi
+coloredlogs               10.0                     pypi_0    pypi
+colorhash                 1.0.2                    pypi_0    pypi
+constantly                15.1.0                   pypi_0    pypi
+cryptography              2.9                      pypi_0    pypi
+cycler                    0.10.0                   pypi_0    pypi
+cymem                     2.0.3                    pypi_0    pypi
+cytoolz                   0.9.0.1                  pypi_0    pypi
+decorator                 4.4.2                    pypi_0    pypi
+dill                      0.2.9                    pypi_0    pypi
+dnspython                 1.16.0                   pypi_0    pypi
+docopt                    0.6.2                    pypi_0    pypi
+docutils                  0.15.2                   pypi_0    pypi
+en-core-web-md            2.0.0                    pypi_0    pypi
+fbmessenger               6.0.0                    pypi_0    pypi
+future                    0.17.1                   pypi_0    pypi
+gast                      0.2.2                    pypi_0    pypi
+gevent                    1.4.0                    pypi_0    pypi
+gitdb                     4.0.4                    pypi_0    pypi
+gitpython                 3.1.1                    pypi_0    pypi
+google-auth               1.14.0                   pypi_0    pypi
+google-auth-oauthlib      0.4.1                    pypi_0    pypi
+google-pasta              0.2.0                    pypi_0    pypi
+greenlet                  0.4.15                   pypi_0    pypi
+grpcio                    1.28.1                   pypi_0    pypi
+h11                       0.8.1                    pypi_0    pypi
+h2                        3.2.0                    pypi_0    pypi
+h5py                      2.10.0                   pypi_0    pypi
+hpack                     3.0.0                    pypi_0    pypi
+hstspreload               2020.4.14                pypi_0    pypi
+httplib2                  0.17.2                   pypi_0    pypi
+httptools                 0.1.1                    pypi_0    pypi
+httpx                     0.9.3                    pypi_0    pypi
+humanfriendly             8.1                      pypi_0    pypi
+hyperframe                5.2.0                    pypi_0    pypi
+hyperlink                 19.0.0                   pypi_0    pypi
+idna                      2.9                      pypi_0    pypi
+importlib-metadata        1.6.0                    pypi_0    pypi
+incremental               17.5.0                   pypi_0    pypi
+isodate                   0.6.0                    pypi_0    pypi
+jmespath                  0.9.5                    pypi_0    pypi
+joblib                    0.14.1                   pypi_0    pypi
+jsonpickle                1.3                      pypi_0    pypi
+jsonschema                2.6.0                    pypi_0    pypi
+kafka-python              1.4.7                    pypi_0    pypi
+keras-applications        1.0.8                    pypi_0    pypi
+keras-preprocessing       1.1.0                    pypi_0    pypi
+kiwisolver                1.2.0                    pypi_0    pypi
+klein                     17.10.0                  pypi_0    pypi
+mako                      1.1.2                    pypi_0    pypi
+markdown                  3.2.1                    pypi_0    pypi
+markupsafe                1.1.1                    pypi_0    pypi
+matplotlib                2.2.5                    pypi_0    pypi
+mattermostwrapper         2.2                      pypi_0    pypi
+msgpack                   0.5.6                    pypi_0    pypi
+msgpack-numpy             0.4.3.2                  pypi_0    pypi
+multidict                 4.7.5                    pypi_0    pypi
+murmurhash                1.0.2                    pypi_0    pypi
+networkx                  2.4                      pypi_0    pypi
+numpy                     1.18.2                   pypi_0    pypi
+oauth2client              4.1.3                    pypi_0    pypi
+oauthlib                  3.1.0                    pypi_0    pypi
+openssl                   1.1.1f               he774522_0
+opt-einsum                3.2.1                    pypi_0    pypi
+packaging                 18.0                     pypi_0    pypi
+pathspec                  0.8.0                    pypi_0    pypi
+pika                      1.1.0                    pypi_0    pypi
+pip                       20.0.2                   py37_1
+plac                      0.9.6                    pypi_0    pypi
+preshed                   2.0.1                    pypi_0    pypi
+prompt-toolkit            3.0.5                    pypi_0    pypi
+psycopg2-binary           2.8.5                    pypi_0    pypi
+pyasn1                    0.4.8                    pypi_0    pypi
+pyasn1-modules            0.2.8                    pypi_0    pypi
+pycparser                 2.20                     pypi_0    pypi
+pydot                     1.4.1                    pypi_0    pypi
+pyhamcrest                2.0.2                    pypi_0    pypi
+pyjwt                     1.7.1                    pypi_0    pypi
+pykwalify                 1.7.0                    pypi_0    pypi
+pymongo                   3.8.0                    pypi_0    pypi
+pyparsing                 2.4.7                    pypi_0    pypi
+pyreadline                2.1                      pypi_0    pypi
+pyrsistent                0.16.0                   pypi_0    pypi
+pysocks                   1.7.1                    pypi_0    pypi
+python                    3.7.7                h60c2a47_2
+python-crfsuite           0.9.7                    pypi_0    pypi
+python-dateutil           2.8.1                    pypi_0    pypi
+python-editor             1.0.4                    pypi_0    pypi
+python-engineio           3.11.2                   pypi_0    pypi
+python-socketio           4.4.0                    pypi_0    pypi
+python-telegram-bot       11.1.0                   pypi_0    pypi
+pytz                      2019.3                   pypi_0    pypi
+pyyaml                    5.3.1                    pypi_0    pypi
+questionary               1.5.2                    pypi_0    pypi
+rasa                      1.9.6                    pypi_0    pypi
+rasa-nlu                  0.15.1                   pypi_0    pypi
+rasa-sdk                  1.9.0                    pypi_0    pypi
+rasa-x                    0.27.5                   pypi_0    pypi
+redis                     3.4.1                    pypi_0    pypi
+regex                     2018.01.10               pypi_0    pypi
+requests                  2.23.0                   pypi_0    pypi
+requests-oauthlib         1.3.0                    pypi_0    pypi
+requests-toolbelt         0.9.1                    pypi_0    pypi
+rfc3986                   1.4.0                    pypi_0    pypi
+rocketchat-api            0.6.36                   pypi_0    pypi
+rsa                       4.0                      pypi_0    pypi
+ruamel-yaml               0.15.100                 pypi_0    pypi
+s3transfer                0.3.3                    pypi_0    pypi
+sanic                     19.12.2                  pypi_0    pypi
+sanic-cors                0.10.0.post3             pypi_0    pypi
+sanic-jwt                 1.3.2                    pypi_0    pypi
+sanic-plugins-framework   0.9.2                    pypi_0    pypi
+scikit-learn              0.20.4                   pypi_0    pypi
+scipy                     1.4.1                    pypi_0    pypi
+setuptools                46.1.3                   py37_0
+simplejson                3.17.0                   pypi_0    pypi
+sklearn-crfsuite          0.3.6                    pypi_0    pypi
+slackclient               2.5.0                    pypi_0    pypi
+smmap                     3.0.2                    pypi_0    pypi
+sniffio                   1.1.0                    pypi_0    pypi
+spacy                     2.0.18                   pypi_0    pypi
+sqlalchemy                1.3.16                   pypi_0    pypi
+sqlite                    3.31.1               he774522_0
+tabulate                  0.8.7                    pypi_0    pypi
+tensorboard               2.1.1                    pypi_0    pypi
+tensorflow                2.1.0                    pypi_0    pypi
+tensorflow-addons         0.9.1                    pypi_0    pypi
+tensorflow-estimator      2.1.0                    pypi_0    pypi
+tensorflow-hub            0.7.0                    pypi_0    pypi
+tensorflow-probability    0.7.0                    pypi_0    pypi
+termcolor                 1.1.0                    pypi_0    pypi
+terminaltables            3.1.0                    pypi_0    pypi
+thinc                     6.12.1                   pypi_0    pypi
+toolz                     0.10.0                   pypi_0    pypi
+tqdm                      4.31.1                   pypi_0    pypi
+twilio                    6.26.3                   pypi_0    pypi
+twisted                   20.3.0                   pypi_0    pypi
+typeguard                 2.7.1                    pypi_0    pypi
+typing                    3.7.4.1                  pypi_0    pypi
+tzlocal                   2.0.0                    pypi_0    pypi
+ujson                     1.35                     pypi_0    pypi
+urllib3                   1.25.9                   pypi_0    pypi
+vc                        14.1                 h0510ff6_4
+vs2015_runtime            14.16.27012          hf0eaf9b_1
+wcwidth                   0.1.9                    pypi_0    pypi
+webexteamssdk             1.1.1                    pypi_0    pypi
+websockets                8.1                      pypi_0    pypi
+werkzeug                  1.0.1                    pypi_0    pypi
+wheel                     0.34.2                   py37_0
+wincertstore              0.2                      py37_0
+wrapt                     1.10.11                  pypi_0    pypi
+yamllint                  1.23.0                   pypi_0    pypi
+yarl                      1.4.2                    pypi_0    pypi
+zipp                      3.1.0                    pypi_0    pypi
+zope-interface            5.1.0                    pypi_0    pypi
