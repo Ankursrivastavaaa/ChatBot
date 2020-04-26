@@ -108,7 +108,6 @@ class RestaurantForm(FormAction):
     ) -> List[Dict]:
         config={ "user_key":"47ef160bda39996b2dbaff7f9fd0e554"}
         zomato = zomatopy.initialize_app(config)
-        actionListener = tracker.get_slot("actionListener")
         loc = tracker.get_slot('location')
         cuisine = tracker.get_slot('cuisine')
         budget = tracker.get_slot('budget')
@@ -116,6 +115,7 @@ class RestaurantForm(FormAction):
         d1 = json.loads(location_detail)
         lat=d1["location_suggestions"][0]["latitude"]
         lon=d1["location_suggestions"][0]["longitude"]
+        # Neeraj - Cuisine Dict should be updated for American , mexican , etc
         cuisines_dict={'bakery':5,'chinese':25,'cafe':30,'italian':55,'biryani':7,'north indian':50,'south indian':85}
         results=zomato.restaurant_search("", lat, lon, str(cuisines_dict.get(cuisine)), 5)
         d = json.loads(results)
@@ -129,80 +129,65 @@ class RestaurantForm(FormAction):
         dispatcher.utter_message("-----"+response)
         print(cuisine,budget,loc)
         return []
-        # results, lat, lon = self.get_location_suggestions(loc,zomato)
-
-    #     if (results == 0):
-    #         # Zomato API could not find suggestions for this location.
-    #         restaurant_exist = False
-    #         dispatcher.utter_message("Sorry, no results found in this location:("+ "\n")
-    #     else:
-    #         d_rest = self.get_restaurants(lat, lon, cuisine)
-            
-    #         d_budget_rating_sorted = sorted(
-    #                 d_rest, key=lambda k: k['restaurant']['user_rating']['aggregate_rating'], reverse=True)
-
-    #         # Build the response
-    #         response = ""
-    #         restaurant_exist = False
-    #         if len(d_budget_rating_sorted) == 0:
-    #             dispatcher.utter_message("Sorry, no results found :("+ "\n")
-    #         else:
-    #             # Pick the top 5
-    #             d_budget_rating_top5 = d_budget_rating_sorted[:5]
-    #             global d_email_rest
-    #             d_email_rest = d_budget_rating_sorted[:10]
-    #             if(d_email_rest and len(d_email_rest) > 0):
-    #                 restaurant_exist = True
-    #             for restaurant in d_budget_rating_top5:
-    #                 response=response+ restaurant['restaurant']['name']+ " in "+ restaurant['restaurant']['location']['address']+"\n" + " has been rated " + restaurant['restaurant']['user_rating']['aggregate_rating'] + "\n" + "\n"
-                
-    #             dispatcher.utter_message("-----"+response)
-    #     return [SlotSet('location',loc)]
-
-    # def get_location_suggestions(self, loc, zomato):
-    #     # Get location details including latitude and longitude
-    #     location_detail = zomato.get_location(loc, 1)
-    #     d1 = json.loads(location_detail)
-    #     lat = 0
-    #     lon = 0
-    #     results = len(d1["location_suggestions"])
-    #     if (results > 0):
-    #         lat = d1["location_suggestions"][0]["latitude"]
-    #         lon = d1["location_suggestions"][0]["longitude"]
-    #     return results, lat, lon
-
-    # def get_restaurants(self, lat, lon, cuisine):
-    #     cuisines_dict = {'american': 1, 'chinese': 25, 'italian': 55,
-    #                         'mexican': 73, 'north indian': 50, 'south indian': 85}
-    #     d_rest = []
-    #     executor = ThreadPoolExecutor(max_workers=5)
-    #     for res_key in range(0, 101, 20):
-    #         executor.submit(retrieve_restaurant, lat, lon, cuisines_dict, cuisine, res_key, d_rest)
-    #     executor.shutdown()
-    #     return d_rest
-
-    # def retrieve_restaurant(self ,lat, lon, cuisines_dict, cuisine, res_key, d_rest):
-    #     base_url = "https://developers.zomato.com/api/v2.1/"
-    #     headers = {'Accept': 'application/json',
-    #                 'user-key': '5787bb8301dd97fbe86ec40febf7e03b'}
-    #     try:
-    #         results = (requests.get(base_url + "search?" + "&lat=" + str(lat) + "&lon=" + str(lon) + "&cuisines=" + str(
-    #             cuisines_dict.get(cuisine)) + "&start=" + str(res_key)+"&count=20", headers=headers).content).decode("utf-8")
-    #     except:
-    #         return
-    #     d = json.loads(results)
-    #     d_rest.extend(d['restaurants'])
-    
-    
    
 
- # Send email the list of 10 restaurants
-class ActionSendEmail(Action):
+class ActionResetSlots(Action):
     def name(self):
-        return 'action_send_email'
+        return 'action_reset_slots'
 
     def run(self, dispatcher, tracker, domain):
-        # Get user's email id
+        return [AllSlotsReset()]
+
+
+
+class EmailForm(FormAction):
+    """custom form action for Email"""
+
+    def name(self) -> Text:
+        """Unique identifier of the form"""
+
+        return "email_form"
+
+    @staticmethod
+    def required_slots(tracker: Tracker) -> List[Text]:
+        """A list of required slots that the form has to fill"""
+
+        return ["email"]
+
+    def slot_mappings(self) -> Dict[Text, Union[Dict, List[Dict]]]:
+        """A dictionary to map required slots to
+            - an extracted entity
+            - intent: value pairs
+            - a whole message
+            or a list of them, where a first match will be picked"""
+        return {
+        "email": [self.from_entity(entity="email"), self.from_text(intent="send_email")]  
+        }
+    # USED FOR DOCS: do not rename without updating in docs
+    def validate_email(
+        self,
+        value: Text,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> Dict[Text, Any]:
+        """Validate email value."""
+        if isinstance(value, list):
+            value = value[0] 
+        if any(tracker.get_latest_entity_values("email")):
+        # entity was picked up, validate slot
+            return {"email": value}
+        else:
+        # no entity was picked up, we want to ask again
+            dispatcher.utter_template("utter_no_email", tracker)
+            return {"email": None}
+    def submit(
+        self,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> List[Dict]:
+           # Get user's email id
         to_email = tracker.get_slot('email')
 
 	 # Get location and cuisines to put in the email
@@ -210,43 +195,23 @@ class ActionSendEmail(Action):
         cuisine = tracker.get_slot('cuisine')
         budget = tracker.get_slot('budget')
         print(cuisine,budget,loc,to_email)
-       
- 	# # Open SMTP connection to our email id.
-        s = smtplib.SMTP("smtp.gmail.com", 587)
-        s.starttls()
-        s.login("ankurneerajchatbotproject@gmail.com", "iiitbchatbot")
-
-        # # Create the msg object
-        msg = EmailMessage()
-
-        # # Fill in the message properties
-        msg['Subject'] = 'Top Restaurant in your area of choice'
-        msg['From'] = "ankurneerajchatbotproject@gmail.com"
+        # creates SMTP session 
+        s = smtplib.SMTP('smtp.gmail.com', 587) 
         
-        d_email_msg="Hi there! Here are the " 
-
-        # # Fill in the message content
-        msg.set_content(d_email_msg)
-        msg['To'] = to_email
-
-        s.send_message(msg)
-        s.quit()
-        dispatcher.utter_message("**** EMAIL SENT! HAPPY DINING :) ****")
-
-        return [AllSlotsReset()]
-        # global d_email_rest
-        # email_rest_count = len(d_email_rest)
-        # # Construct the email 'subject' and the contents.
-        # d_email_subj = "Top " + str(email_rest_count) + " " + cuisine.capitalize() + " restaurants in " + str(loc).capitalize()
-        d_email_msg="Hi there! Here are the "
-        # d_email_msg = "Hi there! Here are the " + d_email_subj + "." + "\n" + "\n" +"\n"
-        # for restaurant in d_email_rest:
-        #     d_email_msg = d_email_msg + restaurant['restaurant']['name']+ " in "+ restaurant['restaurant']['location']['address']+" has been rated " + restaurant['restaurant']['user_rating']['aggregate_rating'] + "\n" +"\n"
-
+        # start TLS for security 
+        s.starttls() 
         
-class ActionResetSlots(Action):
-    def name(self):
-        return 'action_reset_slots'
-
-    def run(self, dispatcher, tracker, domain):
+        # Authentication 
+        s.login("ankurneerajchatbotproject@gmail.com", "iiitbchatbot") 
+        
+        # message to be sent 
+        # Neeraj - Please update the email to be sent - With Full Body
+        message = "Testing email"
+        
+        # sending the mail 
+        s.sendmail("ankurneerajchatbotproject@gmail.com", to_email , message) 
+        
+        # terminating the session 
+        s.quit() 
+        dispatcher.utter_message(template="utter_email_sent")
         return [AllSlotsReset()]

@@ -8,9 +8,10 @@
     - utter_ask_for_email_to_send
 * affirm
     - utter_ask_email_address
-* send_email{"email": "ankur@gmail.com"}
-    - action_send_email
-    - utter_email_sent
+* send_email
+    - email_form
+    - form{"name": "email_form"}
+    - form{"name": null}
 
 ## happy path 2
 * greet
