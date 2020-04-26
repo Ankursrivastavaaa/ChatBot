@@ -115,13 +115,11 @@ class RestaurantForm(FormAction):
                 for val in value:
                     break
                 value=val
+            
             else:
                 value='-'.join(sorted(set(value)))
-        
         print("Budget:",value)
-        dispatcher.utter_message(template="utter_wrong_budget")
-        return {"budget": None}
-        # return {"budget": value}
+        return {"budget": value}
 
     def submit(
         self,
