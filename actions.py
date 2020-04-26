@@ -15,7 +15,6 @@ from rasa_sdk.events import Restarted
 from rasa_sdk import Action
 from rasa_sdk.events import SlotSet
 
-d_email_rest = []
 
 class RestaurantForm(FormAction):
     """custom form action"""
@@ -136,8 +135,7 @@ class RestaurantForm(FormAction):
         d1 = json.loads(location_detail)
         lat=d1["location_suggestions"][0]["latitude"]
         lon=d1["location_suggestions"][0]["longitude"]
-        # Neeraj - Cuisine Dict should be updated for American , mexican , etc
-        cuisines_dict={'bakery':5,'chinese':25,'cafe':30,'italian':55,'biryani':7,'north indian':50,'south indian':85}
+        cuisines_dict={'american': 1, 'chinese': 25, 'italian': 55,'mexican': 73, 'north indian': 50, 'south indian': 85}
         results=zomato.restaurant_search("", lat, lon, str(cuisines_dict.get(cuisine)), 5)
         d = json.loads(results)
         response=""
@@ -211,7 +209,7 @@ class EmailForm(FormAction):
            # Get user's email id
         to_email = tracker.get_slot('email')
 
-	 # Get location and cuisines to put in the email
+	# Get location and cuisines to put in the email
         loc = tracker.get_slot('location')
         cuisine = tracker.get_slot('cuisine')
         budget = tracker.get_slot('budget')
@@ -223,16 +221,57 @@ class EmailForm(FormAction):
         s.starttls() 
         
         # Authentication 
-        s.login("ankurneerajchatbotproject@gmail.com", "iiitbchatbot") 
+        s.login("ankurneerajchatbotproject@gmail.com", "iiitbchatbot")
         
-        # message to be sent 
+        config={ "user_key":"47ef160bda39996b2dbaff7f9fd0e554"}
+        zomato = zomatopy.initialize_app(config)
+        loc = tracker.get_slot('location')
+        cuisine = tracker.get_slot('cuisine')
+        budget = tracker.get_slot('budget')
+        location_detail=zomato.get_location(loc, 1)
+        d1 = json.loads(location_detail)
+        lat=d1["location_suggestions"][0]["latitude"]
+        lon=d1["location_suggestions"][0]["longitude"]
+        cuisines_dict={'american': 1, 'chinese': 25, 'italian': 55,'mexican': 73, 'north indian': 50, 'south indian': 85}
+        results=zomato.restaurant_search("", lat, lon, str(cuisines_dict.get(cuisine)), 10)
+        d = json.loads(results)
+        response=""
+        if d['results_found'] == 0:
+            response= "no results"
+        else:
+            for restaurant in d['restaurants']:
+                response=response+ restaurant['restaurant']['name']+ " in "+ restaurant['restaurant']['location']['address']+"\n"+ " has been rated " + \
+                        restaurant['restaurant']['user_rating']['aggregate_rating'] + "\n" + "\n"
+        
+        # Create the msg object
+        msg = EmailMessage()
+
+	# Construct the email 'subject' and the contents.
+        d_email_subj = "Top 10" + " " + cuisine.capitalize() + " restaurants in " + str(loc).capitalize()
+        d_email_msg = "Hi there! Here are the " + d_email_subj + "." + "\n" + "\n" +"\n" + response
+
+        # Fill in the message properties
+        msg['Subject'] = d_email_subj
+
+	# message to be sent 
         # Neeraj - Please update the email to be sent - With Full Body
-        message = "Testing email"
+        # Fill in the message properties
+        
+        msg['From'] = "neerajankurchatbotproject@gmail.com"
+
+        # Fill in the message content
+        msg.set_content(d_email_msg)
+        msg['To'] = to_email
         
         # sending the mail 
-        s.sendmail("ankurneerajchatbotproject@gmail.com", to_email , message) 
+        s.sendmail("ankurneerajchatbotproject@gmail.com", to_email , d_email_msg) 
         
         # terminating the session 
         s.quit() 
         dispatcher.utter_message(template="utter_email_sent")
         return [AllSlotsReset()]
+
+
+
+
+
