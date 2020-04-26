@@ -112,6 +112,21 @@ class RestaurantForm(FormAction):
         loc = tracker.get_slot('location')
         cuisine = tracker.get_slot('cuisine')
         budget = tracker.get_slot('budget')
+        location_detail=zomato.get_location(loc, 1)
+        d1 = json.loads(location_detail)
+        lat=d1["location_suggestions"][0]["latitude"]
+        lon=d1["location_suggestions"][0]["longitude"]
+        cuisines_dict={'bakery':5,'chinese':25,'cafe':30,'italian':55,'biryani':7,'north indian':50,'south indian':85}
+        results=zomato.restaurant_search("", lat, lon, str(cuisines_dict.get(cuisine)), 5)
+        d = json.loads(results)
+        response=""
+        if d['results_found'] == 0:
+            response= "no results"
+        else:
+            for restaurant in d['restaurants']:
+                response=response+ restaurant['restaurant']['name']+ " in "+ restaurant['restaurant']['location']['address']+"\n"+ " has been rated " + \
+                        restaurant['restaurant']['user_rating']['aggregate_rating'] + "\n" + "\n"
+        dispatcher.utter_message("-----"+response)
         print(cuisine,budget,loc)
         return []
         # results, lat, lon = self.get_location_suggestions(loc,zomato)
@@ -181,7 +196,7 @@ class RestaurantForm(FormAction):
     
    
 
-# Send email the list of 10 restaurants
+ # Send email the list of 10 restaurants
 class ActionSendEmail(Action):
     def name(self):
         return 'action_send_email'
@@ -190,41 +205,45 @@ class ActionSendEmail(Action):
         # Get user's email id
         to_email = tracker.get_slot('email')
 
-        # Get location and cuisines to put in the email
+	 # Get location and cuisines to put in the email
         loc = tracker.get_slot('location')
         cuisine = tracker.get_slot('cuisine')
         budget = tracker.get_slot('budget')
         print(cuisine,budget,loc,to_email)
+       
+ 	# # Open SMTP connection to our email id.
+        s = smtplib.SMTP("smtp.gmail.com", 587)
+        s.starttls()
+        s.login("ankurneerajchatbotproject@gmail.com", "iiitbchatbot")
+
+        # # Create the msg object
+        msg = EmailMessage()
+
+        # # Fill in the message properties
+        msg['Subject'] = 'Top Restaurant in your area of choice'
+        msg['From'] = "ankurneerajchatbotproject@gmail.com"
+        
+        d_email_msg="Hi there! Here are the " 
+
+        # # Fill in the message content
+        msg.set_content(d_email_msg)
+        msg['To'] = to_email
+
+        s.send_message(msg)
+        s.quit()
+        dispatcher.utter_message("**** EMAIL SENT! HAPPY DINING :) ****")
+
         return [AllSlotsReset()]
         # global d_email_rest
         # email_rest_count = len(d_email_rest)
         # # Construct the email 'subject' and the contents.
         # d_email_subj = "Top " + str(email_rest_count) + " " + cuisine.capitalize() + " restaurants in " + str(loc).capitalize()
+        d_email_msg="Hi there! Here are the "
         # d_email_msg = "Hi there! Here are the " + d_email_subj + "." + "\n" + "\n" +"\n"
         # for restaurant in d_email_rest:
         #     d_email_msg = d_email_msg + restaurant['restaurant']['name']+ " in "+ restaurant['restaurant']['location']['address']+" has been rated " + restaurant['restaurant']['user_rating']['aggregate_rating'] + "\n" +"\n"
 
         
-        # # Open SMTP connection to our email id.
-        # s = smtplib.SMTP("smtp.gmail.com", 587)
-        # s.starttls()
-        # s.login("neerajankurchatbotproject@gmail.com", "iiitbchatbot")
-
-        # # Create the msg object
-        # msg = EmailMessage()
-
-        # # Fill in the message properties
-        # msg['Subject'] = d_email_subj
-        # msg['From'] = "neerajankurchatbotproject@gmail.com"
-
-        # # Fill in the message content
-        # msg.set_content(d_email_msg)
-        # msg['To'] = to_email
-
-        # s.send_message(msg)
-        # s.quit()
-        # dispatcher.utter_message("**** EMAIL SENT! HAPPY DINING :) ****")
-
 class ActionResetSlots(Action):
     def name(self):
         return 'action_reset_slots'
