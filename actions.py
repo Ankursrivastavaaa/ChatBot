@@ -15,7 +15,8 @@ from rasa_sdk.events import Restarted
 from rasa_sdk import Action
 from rasa_sdk.events import SlotSet
 
-
+cost_min=0
+cost_max=0
 class RestaurantForm(FormAction):
     """custom form action"""
 
@@ -131,13 +132,27 @@ class RestaurantForm(FormAction):
         loc = tracker.get_slot('location')
         cuisine = tracker.get_slot('cuisine')
         budget = tracker.get_slot('budget')
+        if budget=='300':
+            cost_min=0
+            cost_max=300
+        elif budget=='300-700':
+            cost_min=300
+            cost_max=700
+        else:cost_min=700
+        cost_max=1000000
+        print((cost_max))    
+        print((cost_min))
+            
         location_detail=zomato.get_location(loc, 1)
         d1 = json.loads(location_detail)
         lat=d1["location_suggestions"][0]["latitude"]
         lon=d1["location_suggestions"][0]["longitude"]
         cuisines_dict={'american': 1, 'chinese': 25, 'italian': 55,'mexican': 73, 'north indian': 50, 'south indian': 85}
         results=zomato.restaurant_search("", lat, lon, str(cuisines_dict.get(cuisine)), 5)
+	# Filter the results based on budget
         d = json.loads(results)
+        #results_filter=d['restaurants']['average_cost_for_two'] > cost_min & d['restaurants']['average_cost_for_two']  < cost_max
+       
         response=""
         if d['results_found'] == 0:
             response= "no results"
