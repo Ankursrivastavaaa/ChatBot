@@ -33,7 +33,14 @@ class RestaurantForm(FormAction):
             "location": self.from_entity(entity="location", intent="request_restaurant"),
             "budget": self.from_entity(entity="budget", intent="request_restaurant"),
         }
-
+    @staticmethod
+    def is_not_int(string: Text) -> bool:
+        """Check if a string is an integer"""
+        try:
+            int(string)
+            return False
+        except ValueError:
+            return True
     # USED FOR DOCS: do not rename without updating in docs
     @staticmethod
     def cuisine_db() -> List[Text]:
@@ -90,15 +97,20 @@ class RestaurantForm(FormAction):
         tracker: Tracker,
         domain: Dict[Text, Any],
     ) -> Dict[Text, Any]:
-        print("Budget:",value)
         if isinstance(value, list):
-            value = value[0] 
-        if value.lower() in ["low","mid","high"]:
-            return {"budget": value}
-        else:
-            dispatcher.utter_message(template="utter_wrong_budget")
-            return {"budget": None}
-
+            value = set(value)        
+            for val in value:
+                val = val.replace("<","").replace(">","").replace("-","")
+                if(val == ""):
+                    continue
+                if self.is_not_int(val) or int(val) < 0:
+                    dispatcher.utter_message(template="utter_wrong_budget")
+                    return {"budget": None}
+                else:
+                    bud= bud + val+"-"
+            value = bud[:-1]
+        print("Budget:",value)
+        return {"budget": value}
 
     def submit(
         self,

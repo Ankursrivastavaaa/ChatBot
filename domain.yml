@@ -42,11 +42,11 @@ intents:
 responses:
   utter_ask_budget:
   - buttons:
-    - payload: '/request_restaurant{"budget": "low"}'
+    - payload: '/request_restaurant{"budget": "300"}'
       title: Lesser than Rs. 300
-    - payload: '/request_restaurant{"budget": "mid"}'
+    - payload: '/request_restaurant{"budget": "300-700"}'
       title: Rs. 300 to 700
-    - payload: '/request_restaurant{"budget": "high"}'
+    - payload: '/request_restaurant{"budget": "700"}'
       title: More than 700
     text: what kind of budget are you looking for?
   utter_ask_cuisine:

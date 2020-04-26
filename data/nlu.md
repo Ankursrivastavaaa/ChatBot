@@ -53,52 +53,42 @@
 - Im hungry. Looking out for some good restaurants
 - [bengaluru](location:bangalore)
 - [chinese](cuisine)
-- [less than 300](budget:low)
+- less than [300](budget)
 - Can you suggest some good restaurants in [Rishikesh](location)
 - Okay. Show me some in [Allahabad](location)
 - Okay. Show me some in [Pune](location)
 - I am looking for [Mexican](cuisine)
-- [300 to 700](budget:mid)
-- Can you suggest some good restaurants in [delli](location:delhi)
+- [300](budget) to [700](budget)
+- Can you suggest some good restaurants in [delli](location:Delhi)
 - [american](cuisine)
-- [<300](budget:low)
-- [< than 300](budget:low)
-- [cheap food](budget:low)
-- [below 300](budget:low)
+- <[300](budget)
+- < than [300](budget)
+- below [300](budget)
 - in mubaim
 - [Mumbai](location)
 - Im hungry. Looking out for some good [chines](cuisine:chinese) restaurants in [chandigarh](location)
-- [more than 700](budget:high)
-- [expensive](budget:high)
-- [> 700](budget:high)
-- [greater than 700](budget:high)
-- [more than Rs 700](budget:high)
+- more than [700](budget)
+- >[700](budget)
+- greater than [700](budget)
+- more than Rs [700](budget)
 - Get me a resturant
 - [mankapur](location)
 - [agra](location)
 - [Italian](cuisine)
-- [costly](budget:high) one
 - Ill prefer [North Indian](cuisine)
-- [300-700](budget:mid) range
-- [between 300 to 700](budget:mid) range
-- [medium range](budget:mid) range
-- [mid range](budget:mid) range
-- [Not very costly](budget:mid) range
-- [300 to 700](budget:mid) range
+- [300](budget)-[700](budget) range
+- between [300](budget) to [700](budget) range
 - looking for [South Indian](cuisine)
 - Can you suggest some good restaurants in [Buxar](location)
 - find some in [Amaravati](location)
 - show me in [Delhi](location)
-- [cheapest](budget:low) possible
 - Looking out for some good restaurants
-- [Less than Rs 300](budget:low)
+- Less than Rs [300](budget)
 - find me a resturant
 - [Bangalore](location)
 - Looking for a resturant
 - [North Indian](cuisine) will do
 - [Delhi](location)
-- [300-700](budget:mid)
-- [300-700 range](budget:mid)
 
 ## intent:send_email
 - yes send it to [abc@gmail.com](email)
@@ -248,47 +238,12 @@
 - Chinese
 - Chines
 
-## synonym:high
-- more than 700
-- expensive
-- > 700
-- >700
-- greater than 700
-- more than Rs 700
-- costly
-- top
-- best one
-
-## synonym:low
-- less than 300
-- <300
-- < than 300
-- cheap food
-- below 300
-- cheapest
-- Less than Rs 300
-- cheap
-- low bugdet
-- low
-
-## synonym:mid
-- 300 to 700
-- 300-700
-- between 300 to 700
-- medium range
-- mid range
-- Not very costly
-- midium
-- between 300-700
-- between 300 - 700
-- moderate priced
-- not very high
-- middle class
-- mid
-- medium
-
 ## regex:email
-- ^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$
+- ^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$
+
+## regex:budget
+- [0-9]{3}
+
 
 ## regex:greet
 - hey[^\s]*
