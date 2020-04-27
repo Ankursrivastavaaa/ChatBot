@@ -23,6 +23,7 @@ entities:
 - cuisine
 - email
 - location
+- emailResponse
 forms:
 - email_form
 - restaurant_form
@@ -116,4 +117,7 @@ slots:
     auto_fill: false
     type: unfeaturized
   requested_slot:
+    type: unfeaturized
+  emailResponse:
+    auto_fill: false
     type: unfeaturized

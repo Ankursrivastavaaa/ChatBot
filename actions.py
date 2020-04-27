@@ -22,7 +22,8 @@ class RestaurantForm(FormAction):
 
     def name(self) -> Text:
         return "restaurant_form"
-
+    config={ "user_key":"47ef160bda39996b2dbaff7f9fd0e554"}
+        
     @staticmethod
     def required_slots(tracker: Tracker) -> List[Text]:
         return ["location", "cuisine", "budget"]
@@ -127,8 +128,37 @@ class RestaurantForm(FormAction):
         tracker: Tracker,
         domain: Dict[Text, Any],
     ) -> List[Dict]:
-        config={ "user_key":"47ef160bda39996b2dbaff7f9fd0e554"}
-        zomato = zomatopy.initialize_app(config)
+        # Get required Slot Values
+        loc, cuisine, budget_min, budget_max = self.getSlotValues(tracker)
+        print((budget_min))   
+        print((budget_max))
+        zomato = zomatopy.initialize_app(self.config)
+        results, lat, lon = self.getLocation(loc,zomato)
+        if(results == 0):
+            dispatcher.utter_message("Sorry, no results found in this location")
+        else:
+            # Hit API to get results
+            resturantList = self.getRestaurantsFromAPI(lat, lon, budget_min, budget_max, cuisine,zomato)
+
+        chatResponse=""
+        emailResponse=""
+        if len(resturantList) == 0:
+            chatResponse= "Sorry, no results found."
+        else:
+            count = 0
+            for restaurant in resturantList:
+                if(count < 5):
+                    chatResponse=chatResponse+ restaurant['restaurant']['name']+ " in "+ restaurant['restaurant']['location']['address']+"\n"+ " has been rated " + \
+                            restaurant['restaurant']['user_rating']['aggregate_rating'] + "\n" + "\n"  
+                emailResponse=emailResponse+ restaurant['restaurant']['name']+ " in "+ restaurant['restaurant']['location']['address']+"\n"+ " has been rated " + \
+                            restaurant['restaurant']['user_rating']['aggregate_rating'] + " and average budget of "+ str(restaurant['restaurant']['average_cost_for_two']) + "\n"+ "\n"
+                count = count + 1
+        
+        dispatcher.utter_message(chatResponse)
+        print(cuisine,budget_min,budget_max,loc)
+        return [SlotSet("emailResponse",emailResponse)]
+    #Returns Slot Values
+    def getSlotValues(self,tracker):
         loc = tracker.get_slot('location')
         cuisine = tracker.get_slot('cuisine')
         budget = tracker.get_slot('budget')
@@ -138,33 +168,58 @@ class RestaurantForm(FormAction):
         elif budget=='300-700':
             cost_min=300
             cost_max=700
-        else:cost_min=700
-        cost_max=1000000
-        print((cost_max))    
-        print((cost_min))
-            
+        elif budget=='700':
+            cost_min=700
+            cost_max=1000000
+        else:
+            try:
+                cost_min=0
+                try:
+                    cost_max=int(budget)
+                except:
+                    cost_min=int(budget.split("-")[0])
+                    cost_max=int(budget.split("-")[1])
+            except:
+                cost_min=0
+                cost_max = 100000
+        return loc,cuisine,cost_min,cost_max
+    # Returns Location
+    def getLocation(self,loc,zomato):
         location_detail=zomato.get_location(loc, 1)
         d1 = json.loads(location_detail)
-        lat=d1["location_suggestions"][0]["latitude"]
-        lon=d1["location_suggestions"][0]["longitude"]
-        cuisines_dict={'american': 1, 'chinese': 25, 'italian': 55,'mexican': 73, 'north indian': 50, 'south indian': 85}
-        results=zomato.restaurant_search("", lat, lon, str(cuisines_dict.get(cuisine)), 5)
-	# Filter the results based on budget
-        d = json.loads(results)
-        #results_filter=d['restaurants']['average_cost_for_two'] > cost_min & d['restaurants']['average_cost_for_two']  < cost_max
-       
-        response=""
-        if d['results_found'] == 0:
-            response= "no results"
-        else:
-            for restaurant in d['restaurants']:
-                response=response+ restaurant['restaurant']['name']+ " in "+ restaurant['restaurant']['location']['address']+"\n"+ " has been rated " + \
-                        restaurant['restaurant']['user_rating']['aggregate_rating'] + "\n" + "\n"
-        dispatcher.utter_message("-----"+response)
-        print(cuisine,budget,loc)
-        return []
+        results = len(d1["location_suggestions"])
+        if (results > 0):
+            lat=d1["location_suggestions"][0]["latitude"]
+            lon=d1["location_suggestions"][0]["longitude"]
+        return results,lat,lon
    
-
+    def getRestaurantsFromAPI(self,lat, lon, budget_min, budget_max, cuisine,zomato):
+        cuisines_dict = {'american': 1, 'chinese': 25, 'italian': 55,
+                         'mexican': 73, 'north indian': 50, 'south indian': 85}
+        resturantList=[]
+        startIndex=0
+        # Keep Hitting the API till we get 10 resturants in desired budget and other filters
+        # Max result returned is 20 for Zomato to hitting API`s in Iteration
+        while(len(resturantList) <=10):
+            print("Hitting API, startIndex", startIndex)
+            print("Budget Constraint", budget_min, budget_max)
+            
+            results=zomato.restaurant_search("", lat, lon, str(cuisines_dict.get(cuisine)), 20 , 'rating', "desc", start_offset=startIndex)
+            json_result= json.loads(results)
+            startIndex = startIndex+20
+            for resturant in json_result['restaurants']:
+                if ((resturant['restaurant']['average_cost_for_two'] > budget_min) & (
+                    resturant['restaurant']['average_cost_for_two'] < budget_max)):
+                        resturantList.append(resturant)
+                if(len(resturantList) == 10):
+                            break
+            print("Total Resturant found", len(resturantList))
+            if(len(resturantList) == 10):
+                break          
+            
+        return resturantList
+        
+	
 class ActionResetSlots(Action):
     def name(self):
         return 'action_reset_slots'
@@ -223,14 +278,13 @@ class EmailForm(FormAction):
     ) -> List[Dict]:
            # Get user's email id
         to_email = tracker.get_slot('email')
-
-	# Get location and cuisines to put in the email
+        emailResponse = tracker.get_slot('emailResponse')
+        print(to_email)
+	    # Get location and cuisines to put in the email
         loc = tracker.get_slot('location')
         cuisine = tracker.get_slot('cuisine')
-        budget = tracker.get_slot('budget')
-        print(cuisine,budget,loc,to_email)
         # creates SMTP session 
-        s = smtplib.SMTP('smtp.gmail.com', 587) 
+        s = smtplib.SMTP('smtp.gmail.com', 587)
         
         # start TLS for security 
         s.starttls() 
@@ -238,49 +292,18 @@ class EmailForm(FormAction):
         # Authentication 
         s.login("ankurneerajchatbotproject@gmail.com", "iiitbchatbot")
         
-        config={ "user_key":"47ef160bda39996b2dbaff7f9fd0e554"}
-        zomato = zomatopy.initialize_app(config)
-        loc = tracker.get_slot('location')
-        cuisine = tracker.get_slot('cuisine')
-        budget = tracker.get_slot('budget')
-        location_detail=zomato.get_location(loc, 1)
-        d1 = json.loads(location_detail)
-        lat=d1["location_suggestions"][0]["latitude"]
-        lon=d1["location_suggestions"][0]["longitude"]
-        cuisines_dict={'american': 1, 'chinese': 25, 'italian': 55,'mexican': 73, 'north indian': 50, 'south indian': 85}
-        results=zomato.restaurant_search("", lat, lon, str(cuisines_dict.get(cuisine)), 10)
-        d = json.loads(results)
-        response=""
-        if d['results_found'] == 0:
-            response= "no results"
-        else:
-            for restaurant in d['restaurants']:
-                response=response+ restaurant['restaurant']['name']+ " in "+ restaurant['restaurant']['location']['address']+"\n"+ " has been rated " + \
-                        restaurant['restaurant']['user_rating']['aggregate_rating'] + "\n" + "\n"
-        
+       
         # Create the msg object
         msg = EmailMessage()
 
-	# Construct the email 'subject' and the contents.
+	    # Construct the email 'subject' and the contents.
         d_email_subj = "Top 10" + " " + cuisine.capitalize() + " restaurants in " + str(loc).capitalize()
-        d_email_msg = "Hi there! Here are the " + d_email_subj + "." + "\n" + "\n" +"\n" + response
+        d_email_msg = "Hi there! Here are the " + d_email_subj + "." + "\n" + "\n" +"\n" + emailResponse
 
         # Fill in the message properties
-        msg['Subject'] = d_email_subj
-
-	# message to be sent 
-        # Neeraj - Please update the email to be sent - With Full Body
-        # Fill in the message properties
-        
-        msg['From'] = "neerajankurchatbotproject@gmail.com"
-
-        # Fill in the message content
-        msg.set_content(d_email_msg)
-        msg['To'] = to_email
-        
+        message = 'Subject: {}\n\n{}'.format(d_email_subj, d_email_msg)    
         # sending the mail 
-        s.sendmail("ankurneerajchatbotproject@gmail.com", to_email , d_email_msg) 
-        
+        s.sendmail("ankurneerajchatbotproject@gmail.com", to_email , message) 
         # terminating the session 
         s.quit() 
         dispatcher.utter_message(template="utter_email_sent")
