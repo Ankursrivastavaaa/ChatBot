@@ -255,6 +255,7 @@
 
 ## synonym:Delhi
 - delli
+- dilli
 - New Delhi
 
 ## synonym:Italian

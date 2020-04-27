@@ -73,7 +73,7 @@ class RestaurantForm(FormAction):
         if isinstance(value, list):
             value = value[0] 
         if value.lower() in self.location_db():
-            return {"location": value}
+            return {"location": value.lower()}
         else:
             dispatcher.utter_message(template="utter_wrong_location")
             return {"location": None}
@@ -90,7 +90,7 @@ class RestaurantForm(FormAction):
         if isinstance(value, list):
             value = value[0] 
         if value.lower() in self.cuisine_db():
-            return {"cuisine": value}
+            return {"cuisine": value.lower()}
         else:
             dispatcher.utter_message(template="utter_wrong_cuisine")
             return {"cuisine": None}
@@ -103,6 +103,7 @@ class RestaurantForm(FormAction):
         domain: Dict[Text, Any],
     ) -> Dict[Text, Any]:
         if isinstance(value, list):
+            # Validating budget is a number and setting it in desired format
             value = set(value)
             dum=[]
             for val in value:
@@ -130,9 +131,8 @@ class RestaurantForm(FormAction):
     ) -> List[Dict]:
         # Get required Slot Values
         loc, cuisine, budget_min, budget_max = self.getSlotValues(tracker)
-        print((budget_min))   
-        print((budget_max))
         zomato = zomatopy.initialize_app(self.config)
+        # Get Location
         results, lat, lon = self.getLocation(loc,zomato)
         if(results == 0):
             dispatcher.utter_message("Sorry, no results found in this location")
@@ -144,9 +144,11 @@ class RestaurantForm(FormAction):
         emailResponse=""
         if len(resturantList) == 0:
             chatResponse= "Sorry, no results found."
+            emailResponse= "Sorry, no results found."
         else:
             count = 0
             for restaurant in resturantList:
+                # Top 5 for Chat, top 10 for Email
                 if(count < 5):
                     chatResponse=chatResponse+ restaurant['restaurant']['name']+ " in "+ restaurant['restaurant']['location']['address']+"\n"+ " has been rated " + \
                             restaurant['restaurant']['user_rating']['aggregate_rating'] + "\n" + "\n"  
@@ -200,13 +202,18 @@ class RestaurantForm(FormAction):
         startIndex=0
         # Keep Hitting the API till we get 10 resturants in desired budget and other filters
         # Max result returned is 20 for Zomato to hitting API`s in Iteration
-        while(len(resturantList) <=10):
+        # Setting Max time API to hit to 10 - Max 200 Resturants so that we dont get timeout error
+        while(len(resturantList) <=10 and startIndex<200):
             print("Hitting API, startIndex", startIndex)
             print("Budget Constraint", budget_min, budget_max)
-            
+            print("Cuisine", cuisines_dict.get(cuisine.lower()))
             results=zomato.restaurant_search("", lat, lon, str(cuisines_dict.get(cuisine)), 20 , 'rating', "desc", start_offset=startIndex)
             json_result= json.loads(results)
             startIndex = startIndex+20
+            # If no resturants found, Break it
+            if (len(json_result['restaurants']) == 0):
+                print("Total Resturant found", len(resturantList))
+                break
             for resturant in json_result['restaurants']:
                 if ((resturant['restaurant']['average_cost_for_two'] > budget_min) & (
                     resturant['restaurant']['average_cost_for_two'] < budget_max)):
@@ -291,11 +298,6 @@ class EmailForm(FormAction):
         
         # Authentication 
         s.login("ankurneerajchatbotproject@gmail.com", "iiitbchatbot")
-        
-       
-        # Create the msg object
-        msg = EmailMessage()
-
 	    # Construct the email 'subject' and the contents.
         d_email_subj = "Top 10" + " " + cuisine.capitalize() + " restaurants in " + str(loc).capitalize()
         d_email_msg = "Hi there! Here are the " + d_email_subj + "." + "\n" + "\n" +"\n" + emailResponse
